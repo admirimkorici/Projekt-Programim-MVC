@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Projekt_Programim_MVC.Models.Mesazhe>
+
+@{
+    ViewData["Title"] = "Te gjitha mesazhet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Te gjitha mesazhet</h1>
+@foreach (var item in Model)
+{
+    <div class="msg-content">
+        <h2 class="name"><b>@Html.DisplayNameFor(model => model.Emri): </b>@Html.DisplayFor(modelItem => item.Emri) </h2>
+        <div class="email"><b>@Html.DisplayNameFor(model => model.Email): </b>@Html.DisplayFor(modelItem => item.Email)</div>
+        <div class="subject"><b>@Html.DisplayNameFor(model => model.Subjekti): </b>@Html.DisplayFor(modelItem => item.Subjekti)</div>
+        <a asp-action="Details" asp-controller="Mesazhe" asp-route-id="@item.Id" class="btn">Lexo me shume</a>
+    </div>
+    <hr />
+}

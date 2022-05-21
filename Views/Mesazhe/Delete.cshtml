@@ -1,0 +1,17 @@
+﻿@model Projekt_Programim_MVC.Models.Mesazhe
+
+@{
+    ViewData["Title"] = "Fshi mesazhin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Fshi mesazhin</h1>
+
+<h3>Jeni i sigurte qe deshironi ta fshini kete mesazhe?</h3>
+<div>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Po" class="btn btn-danger" />
+        <a asp-action="Index" class="btn">Ktheu tek mesazhet</a>
+    </form>
+</div>

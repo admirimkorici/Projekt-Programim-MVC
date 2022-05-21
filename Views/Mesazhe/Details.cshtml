@@ -1,0 +1,47 @@
+﻿@model Projekt_Programim_MVC.Models.Mesazhe
+
+@{
+    ViewData["Title"] = "Detajet e mesazhit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detajet e mesazhit.</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Emri)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Emri)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Subjekti)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Subjekti)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Mesazhi)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Mesazhi)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Koha)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Koha)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Delete" asp-route-id="@Model.Id" class="btn">Fshi Mesazhin</a>
+</div>

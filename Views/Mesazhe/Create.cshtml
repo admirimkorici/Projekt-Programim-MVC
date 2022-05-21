@@ -1,0 +1,46 @@
+﻿@model Projekt_Programim_MVC.Models.Mesazhe
+
+@{
+    ViewData["Title"] = "Dergo nje mesazhe";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Contact";
+}
+<h1>Na kontaktoni</h1>
+@if (ViewBag.Msg != null)
+{
+    <div class="alert alert-success">@ViewBag.Msg</div>
+}
+
+<div class="contact-form">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <input asp-for="Emri" class="form-control" placeholder="Emri" />
+                <span asp-validation-for="Emri" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <input asp-for="Subjekti" class="form-control" placeholder="Subjekti" />
+            <span asp-validation-for="Subjekti" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-12">
+            <textarea asp-for="Mesazhi" class="form-control" placeholder="Mesazhi..."></textarea>
+            <span asp-validation-for="Mesazhi" class="text-danger"></span>
+        </div>
+        <div class="form-group col-lg-12">
+            <input type="submit" class="btn" value="Dergo Mesazhin" />
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

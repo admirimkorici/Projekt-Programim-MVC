@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Electronic_Keys</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ;
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/Messages.js"></script>
+    <script src="~/js/NavBarScript.js"></script>
+    <script src="~/js/SearchFormScript.js"></script>
+</head>
+<body>
+    <header class="header">
+
+        <a href="/Home/Index/" class="logo"> <i class="fas fa-car"></i> AlbaRent </a>
+
+        <nav class="navbar">
+            <a asp-action="Index" asp-controller="Home">Kryesore</a>
+            <a asp-action="Create" asp-controller="Mesazhe">Kontakt</a>
+            <a asp-action="Privacy" asp-controller="Home">Rreth Nesh</a>
+        </nav>
+
+        <div class="icons">
+            <div class="fas fa-bars" id="menu-btn"></div>
+            <div class="fas fa-search" id="search-btn"></div>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="fas fa-bell" id="msg-btn"></div>
+            }
+            <!--<partial name="_LoginPartial" />-->
+        </div>
+
+        <form asp-action="Kerko" id="search" class="search-form">
+            <input type="search" name="q" id="search-box" placeholder="Kerko...">
+            <button type="submit" class="fas fa-search"></button>
+        </form>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <div class="msg-cart">
+                <div class="box">
+                </div>
+                <div class="box">
+                </div>
+                <div class="box">
+                </div>
+            </div>
+        }
+
+    </header>
+    <div class="body-content">
+        @RenderBody()
+    </div>
+    <hr />
+    <section class="footer">
+
+        <div class="box-container">
+
+            <div class="box">
+                <h3> AlbaRent <i class="fas fa-car"></i> </h3>
+                <p>Na kontaktoni ne rrjetet sociale.</p>
+                <div class="share">
+                    <a href="#" class="fab fa-facebook-f"></a>
+                    <a href="http://api.whatsapp.com/send?phone=+355682760266&text=Pershendetje" class="fab fa-whatsapp"></a>
+                    <a href="https://instagram.com/servis_turi_laprak_?igshid=YmMyMTA2M2Y=" class="fab fa-instagram"></a>
+                </div>
+            </div>
+
+            <div class="box">
+                <h3>Informacionet e Kontaktit</h3>
+                <a href="tel:+355682760266" class="links"> <i class="fas fa-phone"></i> +355682760266 </a>
+                <a href="#" class="links"> <i class="fas fa-phone"></i> +111-222-3333 </a>
+                <a href="#" class="links"> <i class="fas fa-envelope"></i> test@gmail.com </a>
+                <a href="https://maps.apple.com/?ll=41.335980,19.796130&q=Servis%20Turi,%20Pallatet%20Arabe,%20Rruga%20Dritan%20Hoxha%20Tirana,%20Albania&_ext=EiQpFw6EZAGrREAxT135LM/LM0A5Fw6EZAGrREBBT135LM/LM0A%3D&t=m" class="links"> <i class="fas fa-map-marker-alt"></i>Rruga Dritan Hoxha, Tirane, Albania </a>
+            </div>
+
+            <div class="box">
+                <h3>Navigim i shpejte</h3>
+                <a asp-action="Index" asp-controller="Home" class="links"> <i class="fas fa-arrow-right"></i> Kryesore </a>
+                <a asp-action="New" asp-controller="Mesazhe" class="links"> <i class="fas fa-arrow-right"></i> Kontakti </a>
+                <a asp-action="Privacy" asp-controller="Home" class="links"> <i class="fas fa-arrow-right"></i> Rrethe Nesh </a>
+            </div>
+
+        </div>
+
+        <div class="credit"> Krijuar nga  <a href="https://linktr.ee/adi_korici"><span> Admirim Koriçi</span></a>  | <span class="far fa-copyright"></span> @DateTime.Now.Year Te gjitha te drejtat e rezervuara </div>
+
+    </section>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

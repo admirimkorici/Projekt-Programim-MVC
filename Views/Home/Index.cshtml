@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Faqa kryesore";
+}
+
+<section class="home" id="home">
+
+    <div class="content">
+        <h3>Alba <span>Rent</span></h3>
+        <p>Tek ne gjeni cilesi dhe garanci per sherbimet qe merrni.</p>
+        <a href="/Mesazhe/New/" class="btn" style="border: 1px solid white; color: white;">Dergo nje mesazhe</a>
+    </div>
+</section>
+
+<section class="features" id="features">
+
+    <h1 style="text-align: center; margin-top: 10px;" class="heading">Sherbimet <span>Tona</span> </h1>
+
+    <div class="box-container">
+
+        <div class="box">
+            <img src="image/feature-img-1.png" alt="">
+            <h3>Kodime Cipa Pultash</h3>
+            <p>Kodime cipash per makina te llojeve te ndryshme.</p>
+            <a asp-action="Index" asp-controller="Kategori" asp-route-Sherbimi="CipaMakinash" class="btn">Shiko me shume</a>
+        </div>
+
+        <div class="box">
+            <img src="image/feature-img-2.png" alt="">
+            <h3>Celesa</h3>
+            <p>Copje celesash te llojeve te ndryshme per makinen tuaj.</p>
+            <a asp-action="Index" asp-controller="Kategori" asp-route-Sherbimi="Celesa" class="btn">Shiko me shume</a>
+        </div>
+
+        <div class="box">
+            <img src="image/feature-img-3.png" alt="">
+            <h3>Aksesore te tjere</h3>
+            <p>Aksesore te ndryshem per makinen tuaj si: Krik Xhami, Doreza, Fishek Dere, Fshirse Xhami</p>
+            <a asp-action="Index" asp-controller="Aksesore" class="btn">Shiko me shume</a>
+        </div>
+    </div>
+</section>

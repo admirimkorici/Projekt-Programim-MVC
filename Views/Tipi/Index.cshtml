@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Projekt_Programim_MVC.Models.Tipi>
+
+@{
+    ViewData["Title"] = "Marka e makines";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create" class="btn">Shto nje kategori</a>
+    </p>
+}
+<div class="Cipa-content">
+    <h1 class="heading" style="text-align: center;"> Markat e <span>Makinave</span> </h1>
+    <div class="box-container">
+        @foreach (var item in Model)
+        {
+            <a href="/@ViewBag.Sherbimi/Index?marka=@Html.DisplayFor(modelItem => item.Emri)">
+                <div class="box">
+                    <img src="~/Images/Uploaded/@Html.DisplayFor(modelItem => item.Ikona)" />
+                </div>
+            </a>
+        }
+    </div>
+</div>
