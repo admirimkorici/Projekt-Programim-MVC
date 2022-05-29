@@ -153,7 +153,7 @@ heading {
     display: none;
 }
 
-.header #search {
+.header .search-form {
     position: absolute;
     transition: .4s linear;
     top: 110%;
@@ -169,48 +169,12 @@ heading {
     box-shadow: var(--box-shadow);
 }
 
-.header .search-specification {
-    position: absolute;
-    transition: .4s linear;
-    top: 170%;
-    right: -110%;
-    width: 50rem;
-    height: 5rem;
-    background: #fff;
-    border-radius: .5rem;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2px 4px;
-    box-shadow: var(--box-shadow);
-}
-
-    .header .search-specification .btn {
-        margin: 0;
+    .header .search-form.active {
+        right: 2rem !important;
+        transition: .4s linear !important;
     }
 
-.header .search-form-cipa.active {
-    right: 2rem !important;
-    transition: .4s linear !important;
-}
-
-.header .search-form-celesa.active {
-    right: 2rem !important;
-    transition: .4s linear !important;
-}
-
-.header .search-form-aksesore.active {
-    right: 2rem !important;
-    transition: .4s linear !important;
-}
-
-.header .search-specification.active {
-    right: 2rem;
-    transition: .4s linear;
-}
-
-.header #search input {
+.header .search-form input {
     height: 100%;
     width: 100%;
     background: none;
@@ -221,11 +185,11 @@ heading {
     padding: 0 1.5rem;
 }
 
-    .header #search input:focus {
-        outline: none;
-    }
+.header .search-form input:focus {
+    outline: none;
+}
 
-.header #search button {
+.header .search-form button {
     font-size: 2.2rem;
     padding-right: 1.5rem;
     color: var(--black);
@@ -234,7 +198,7 @@ heading {
     background: none;
 }
 
-    .header #search button:hover {
+    .header .search-form button:hover {
         color: var(--orange);
     }
 
@@ -685,11 +649,7 @@ heading {
         display: inline-block;
     }
 
-    .header #search {
-        width: 90%;
-    }
-
-    .header .search-specification {
+    .header .search-form {
         width: 90%;
     }
 

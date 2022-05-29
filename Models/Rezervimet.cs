@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,11 @@ namespace Projekt_Programim_MVC.Models
         [Required]
         [DataType(DataType.Currency)]
         public decimal Pagesa_totale { get; set; }
+        [Required]
+        [Display(Name = "Numer Telefoni")]
+        public string NumerTelefoni { get; set; }
+        [Required]
+        public string Adresa { get; set; }
 
         [Display(Name = "Makina")]
         public int? MakinatID { get; set; }

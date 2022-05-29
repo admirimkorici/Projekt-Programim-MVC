@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<Projekt_Programim_MVC.Models.Tipi>
+
+@{
     ViewData["Title"] = "Faqa kryesore";
 }
 
@@ -10,32 +12,16 @@
         <a href="/Mesazhe/New/" class="btn" style="border: 1px solid white; color: white;">Dergo nje mesazhe</a>
     </div>
 </section>
-
-<section class="features" id="features">
-
-    <h1 style="text-align: center; margin-top: 10px;" class="heading">Sherbimet <span>Tona</span> </h1>
-
-    <div class="box-container">
-
-        <div class="box">
-            <img src="image/feature-img-1.png" alt="">
-            <h3>Kodime Cipa Pultash</h3>
-            <p>Kodime cipash per makina te llojeve te ndryshme.</p>
-            <a asp-action="Index" asp-controller="Kategori" asp-route-Sherbimi="CipaMakinash" class="btn">Shiko me shume</a>
-        </div>
-
-        <div class="box">
-            <img src="image/feature-img-2.png" alt="">
-            <h3>Celesa</h3>
-            <p>Copje celesash te llojeve te ndryshme per makinen tuaj.</p>
-            <a asp-action="Index" asp-controller="Kategori" asp-route-Sherbimi="Celesa" class="btn">Shiko me shume</a>
-        </div>
-
-        <div class="box">
-            <img src="image/feature-img-3.png" alt="">
-            <h3>Aksesore te tjere</h3>
-            <p>Aksesore te ndryshem per makinen tuaj si: Krik Xhami, Doreza, Fishek Dere, Fshirse Xhami</p>
-            <a asp-action="Index" asp-controller="Aksesore" class="btn">Shiko me shume</a>
+    <div class="Cipa-content">
+        <h1 class="heading" style="text-align: center; margin-top: 20px;"> Markat e <span>Makinave</span> </h1>
+        <div class="box-container">
+            @foreach (var item in Model)
+            {
+                <a href="/Makina/Index?marka=@Html.DisplayFor(modelItem => item.Emri)">
+                    <div class="box">
+                        <img src="~/Images/Uploaded/@Html.DisplayFor(modelItem => item.Ikona)" />
+                    </div>
+                </a>
+            }
         </div>
     </div>
-</section>

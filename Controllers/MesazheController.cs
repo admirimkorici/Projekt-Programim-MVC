@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +19,13 @@ namespace Projekt_Programim_MVC.Controllers
             _context = context;
         }
         // GET: Mesazhe
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Mesazhe.ToListAsync());
         }
         // GET: Mesazhe/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -69,6 +72,7 @@ namespace Projekt_Programim_MVC.Controllers
             return View(mesazhe);
         }
         // GET: Mesazhe/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace Projekt_Programim_MVC.Controllers
         // POST: Mesazhe/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var mesazhe = await _context.Mesazhe.FindAsync(id);

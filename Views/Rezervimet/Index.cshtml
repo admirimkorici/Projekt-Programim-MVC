@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Projekt_Programim_MVC.Models.Rezervimet>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_Rezervimi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date_kthimi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pagesa_totale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumerTelefoni)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Makinat)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_Rezervimi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date_kthimi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagesa_totale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumerTelefoni)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Makinat.Modeli)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

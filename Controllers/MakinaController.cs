@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,10 +21,14 @@ namespace Projekt_Programim_MVC.Controllers
         }
 
         // GET: Makina
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? marka)
         {
-            var applicationDbContext = _context.Makina.Include(m => m.Tipi);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = await _context.Makina.Include(m => m.Tipi).ToListAsync();
+            if (!String.IsNullOrEmpty(marka))
+            {
+                applicationDbContext = await _context.Makina.Where(m => m.Tipi.Emri == marka).ToListAsync();
+            }
+            return View(applicationDbContext);
         }
 
         // GET: Makina/Details/5
@@ -57,10 +62,18 @@ namespace Projekt_Programim_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Modeli,Pershkrimi,Vit_Prodhimi,ERezervuar,Kosto1Dite,IMG,TipiID")] Makina makina)
+        public async Task<IActionResult> Create([Bind("ID,Modeli,Pershkrimi,Vit_Prodhimi,ERezervuar,Kosto1Dite,Foto,TipiID")] Makina makina)
         {
             if (ModelState.IsValid)
             {
+                string filename = Path.GetFileNameWithoutExtension(makina.Foto.FileName);
+                string extension = Path.GetExtension(makina.Foto.FileName);
+                makina.IMG = filename = filename + DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine("wwwroot/Images/Uploaded/", filename);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await makina.Foto.CopyToAsync(fileStream);
+                }
                 _context.Add(makina);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -147,6 +160,12 @@ namespace Projekt_Programim_MVC.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var makina = await _context.Makina.FindAsync(id);
+            if(makina.IMG != null)
+            {
+                var imagePath = Path.Combine("wwwroot/Images/Uploaded/", makina.IMG);
+                if(System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+            }
             _context.Makina.Remove(makina);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

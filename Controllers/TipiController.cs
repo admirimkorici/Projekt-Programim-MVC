@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -26,35 +27,15 @@ namespace Projekt_Programim_MVC.Controllers
             return View(await _context.Tipi.ToListAsync());
         }
 
-        // GET: Tipi/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var tipi = await _context.Tipi
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (tipi == null)
-            {
-                return NotFound();
-            }
-
-            return View(tipi);
-        }
-
         // GET: Tipi/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
         }
-
-        // POST: Tipi/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("ID,Emri,Foto")] Tipi tipi)
         {
             if (ModelState.IsValid)
@@ -75,6 +56,7 @@ namespace Projekt_Programim_MVC.Controllers
         }
 
         // GET: Tipi/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -95,6 +77,7 @@ namespace Projekt_Programim_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Emri,Ikona")] Tipi tipi)
         {
             if (id != tipi.ID)
@@ -126,6 +109,7 @@ namespace Projekt_Programim_MVC.Controllers
         }
 
         // GET: Tipi/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,9 +130,16 @@ namespace Projekt_Programim_MVC.Controllers
         // POST: Tipi/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tipi = await _context.Tipi.FindAsync(id);
+            if(tipi.Ikona != null)
+            {
+                var imagePath = Path.Combine("wwwroot/Images/Uploaded/", tipi.Ikona);
+                if(System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+            }
             _context.Tipi.Remove(tipi);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
