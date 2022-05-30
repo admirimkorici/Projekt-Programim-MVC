@@ -1,18 +1,21 @@
 ﻿@model Projekt_Programim_MVC.Models.Rezervimet
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Rezervo Makine";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Create</h1>
-
+@if(ViewBag.mesazh != null)
+{
+    <div class="alert alert-success">@ViewBag.mesazh</div>
+}
 <h4>Rezervimet</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="number" name="kosto" value="@ViewBag.Kosto" hidden />
+            <input type="number" name="id" value="@ViewBag.Id" hidden />
             <div class="form-group">
                 <label asp-for="Date_Rezervimi" class="control-label"></label>
                 <input asp-for="Date_Rezervimi" class="form-control" />
@@ -22,11 +25,6 @@
                 <label asp-for="Date_kthimi" class="control-label"></label>
                 <input asp-for="Date_kthimi" class="form-control" />
                 <span asp-validation-for="Date_kthimi" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pagesa_totale" class="control-label"></label>
-                <input asp-for="Pagesa_totale" class="form-control" />
-                <span asp-validation-for="Pagesa_totale" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="NumerTelefoni" class="control-label"></label>
@@ -39,18 +37,10 @@
                 <span asp-validation-for="Adresa" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MakinatID" class="control-label"></label>
-                <select asp-for="MakinatID" class ="form-control" asp-items="ViewBag.MakinatID"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Rezervo" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

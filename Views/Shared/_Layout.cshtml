@@ -15,6 +15,7 @@
     <script src="~/js/Messages.js"></script>
     <script src="~/js/NavBarScript.js"></script>
     <script src="~/js/SearchFormScript.js"></script>
+    <script src="~/js/MesazheApiScript.js"></script>
 </head>
 <body>
     <header class="header">
@@ -30,18 +31,26 @@
         <div class="icons">
             <div class="fas fa-bars" id="menu-btn"></div>
             <div class="fas fa-search" id="search-btn"></div>
-            @if (User.Identity.IsAuthenticated)
+            @if (User.Identity.IsAuthenticated && User.Identity.Name == "admirimkorici05@gmail.com")
+            {
+                <a asp-action="AllReservation" asp-controller="Rezervimet"><div class="fa fa-shopping-cart"></div></a>
+            }
+            else if(User.Identity.IsAuthenticated && User.Identity.Name != "admirimkorici05@gmail.com")
+            {
+                <a asp-action="Index" asp-controller="Rezervimet"> <div class="fa fa-shopping-cart"></div></a>
+            }
+            @if (User.Identity.IsAuthenticated && User.Identity.Name == "admirimkorici05@gmail.com")
             {
                 <div class="fas fa-bell" id="msg-btn"></div>
             }
             <partial name="_LoginPartial" />
         </div>
 
-        <form asp-action="Kerko" id="search" class="search-form">
+        <form asp-action="Search" asp-controller="Home" id="search" class="search-form">
             <input type="search" name="q" id="search-box" placeholder="Kerko...">
             <button type="submit" class="fas fa-search"></button>
         </form>
-        @if (User.Identity.IsAuthenticated)
+        @if (User.Identity.IsAuthenticated && User.Identity.Name == "admirimkorici05@gmail.com")
         {
             <div class="msg-cart">
                 <div class="box">
@@ -67,24 +76,24 @@
                 <p>Na kontaktoni ne rrjetet sociale.</p>
                 <div class="share">
                     <a href="#" class="fab fa-facebook-f"></a>
-                    <a href="http://api.whatsapp.com/send?phone=+355682760266&text=Pershendetje" class="fab fa-whatsapp"></a>
-                    <a href="https://instagram.com/servis_turi_laprak_?igshid=YmMyMTA2M2Y=" class="fab fa-instagram"></a>
+                    <a href="#" class="fab fa-whatsapp"></a>
+                    <a href="#" class="fab fa-instagram"></a>
                 </div>
             </div>
 
             <div class="box">
                 <h3>Informacionet e Kontaktit</h3>
-                <a href="tel:+355682760266" class="links"> <i class="fas fa-phone"></i> +355682760266 </a>
+                <a href="tel:+355682760266" class="links"> <i class="fas fa-phone"></i> +355676311515 </a>
                 <a href="#" class="links"> <i class="fas fa-phone"></i> +111-222-3333 </a>
-                <a href="#" class="links"> <i class="fas fa-envelope"></i> test@gmail.com </a>
-                <a href="https://maps.apple.com/?ll=41.335980,19.796130&q=Servis%20Turi,%20Pallatet%20Arabe,%20Rruga%20Dritan%20Hoxha%20Tirana,%20Albania&_ext=EiQpFw6EZAGrREAxT135LM/LM0A5Fw6EZAGrREBBT135LM/LM0A%3D&t=m" class="links"> <i class="fas fa-map-marker-alt"></i>Rruga Dritan Hoxha, Tirane, Albania </a>
+                <a href="#" class="links"> <i class="fas fa-envelope"></i> admirimkorici05@gmail.com </a>
+                <a href="#" class="links"> <i class="fas fa-map-marker-alt"></i>Rruga Dritan Hoxha, Tirane, Albania </a>
             </div>
 
             <div class="box">
                 <h3>Navigim i shpejte</h3>
                 <a asp-action="Index" asp-controller="Home" class="links"> <i class="fas fa-arrow-right"></i> Kryesore </a>
                 <a asp-action="New" asp-controller="Mesazhe" class="links"> <i class="fas fa-arrow-right"></i> Kontakti </a>
-                <a asp-action="Privacy" asp-controller="Home" class="links"> <i class="fas fa-arrow-right"></i> Rrethe Nesh </a>
+                <a asp-action="Privacy" asp-controller="Home" class="links"> <i class="fas fa-arrow-right"></i> Rreth Nesh </a>
             </div>
 
         </div>

@@ -21,12 +21,6 @@ namespace Projekt_Programim_MVC.Controllers
             _context = context;
         }
 
-        // GET: Tipi
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Tipi.ToListAsync());
-        }
-
         // GET: Tipi/Create
         [Authorize]
         public IActionResult Create()
@@ -50,7 +44,7 @@ namespace Projekt_Programim_MVC.Controllers
                 }
                 _context.Add(tipi);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Confirm));
             }
             return View(tipi);
         }
@@ -103,7 +97,7 @@ namespace Projekt_Programim_MVC.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Confirm));
             }
             return View(tipi);
         }
@@ -142,9 +136,12 @@ namespace Projekt_Programim_MVC.Controllers
             }
             _context.Tipi.Remove(tipi);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Confirm));
         }
-
+        public IActionResult Confirm()
+        {
+            return View();
+        }
         private bool TipiExists(int id)
         {
             return _context.Tipi.Any(e => e.ID == id);

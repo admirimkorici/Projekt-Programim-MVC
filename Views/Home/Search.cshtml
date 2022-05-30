@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Projekt_Programim_MVC.Models.Makina>
+
+@{
+    ViewData["Title"] = "Kerko Makina";
+}
+
+@if (ViewBag.msg != null)
+{
+    <h2 style="text-align: center;">@ViewBag.msg</h2>
+}
+else
+{
+    <div class="Cipa-content">
+        <h1 class="heading" style="text-align: center;">  Rezultati i kerkimit per: <span>@ViewBag.msg2</span> </h1>
+        <div class="box-container">
+            @foreach (var item in Model)
+            {
+                <a href="/Makina/Details/@Html.DisplayFor(modelItem => item.ID)">
+                    <div class="box">
+                        <img src="~/Images/Uploaded/@Html.DisplayFor(modelItem => item.IMG)" />
+                        <h3>@Html.DisplayFor(modelItem => item.Modeli)</h3>
+                        <div class="price">@Html.DisplayFor(modelItem => item.Kosto1Dite)</div>
+                        <div class="status" style="color: black">
+                            Statusi: @if (!item.ERezervuar)
+                            {
+                                <i class="fa fa-times-circle" style="color: red" aria-hidden="true"></i>
+                            }
+                            else
+                            {
+                                <i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i>
+                            }
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    </div>
+}

@@ -30,6 +30,20 @@ namespace Projekt_Programim_MVC.Controllers
         {
             return View();
         }
+        public IActionResult Search(string? q)
+        {
+            var result = _context.Makina.ToList();
+            if (!String.IsNullOrEmpty(q))
+            {
+                result = _context.Makina.Where(m => m.Modeli.Contains(q)).ToList();
+                if (result.Count() == 0)
+                {
+                    ViewBag.msg = "Nuk u gjend asnje rezultat!";
+                }
+            }
+            ViewBag.msg2 = q;
+            return View(result);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

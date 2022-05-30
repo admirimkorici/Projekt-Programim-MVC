@@ -4,12 +4,12 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.Identity.IsAuthenticated && User.Identity.Name == "admirimkorici05@gmail.com")
+{
+    <p>
+        <a asp-action="Create" class="btn">Shto nje makine</a>
+    </p>
+}
 <div class="Cipa-content">
     <h1 class="heading" style="text-align: center;"> Cipa <span>Makinash</span> </h1>
     <div class="box-container">
@@ -20,6 +20,16 @@
                     <img src="~/Images/Uploaded/@Html.DisplayFor(modelItem => item.IMG)" />
                     <h3>@Html.DisplayFor(modelItem => item.Modeli)</h3>
                     <div class="price">@Html.DisplayFor(modelItem => item.Kosto1Dite)</div>
+                    <div class="status" style="color: black">
+                        Statusi: @if (!item.ERezervuar)
+                        {
+                            <i class="fa fa-times-circle" style="color: red" aria-hidden="true"></i>
+                        }
+                        else
+                        {
+                            <i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i>
+                        }
+                    </div>
                 </div>
             </a>
         }

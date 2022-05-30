@@ -315,6 +315,9 @@ namespace Projekt_Programim_MVC.Data.Migrations
                     b.Property<decimal>("Pagesa_totale")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ID");
 
                     b.HasIndex("MakinatID");

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,109 +23,62 @@ namespace Projekt_Programim_MVC.Controllers
         }
 
         // GET: Rezervimet
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Rezervimet.Include(r => r.Makinat);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var applicationDbContext = _context.Rezervimet.Include(r => r.Makinat).Where(m => m.UserId == userId);
             return View(await applicationDbContext.ToListAsync());
         }
-
-        // GET: Rezervimet/Details/5
-        public async Task<IActionResult> Details(int? id)
+        [Authorize]
+        public async Task<IActionResult> AllReservation()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rezervimet = await _context.Rezervimet
-                .Include(r => r.Makinat)
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (rezervimet == null)
-            {
-                return NotFound();
-            }
-
-            return View(rezervimet);
+            var result = await _context.Rezervimet.Include(m => m.Makinat).ToListAsync();
+            return View(result);
         }
 
         // GET: Rezervimet/Create
-        public IActionResult Create()
+        [Authorize]
+        public IActionResult Create(int? Mid)
         {
-            ViewData["MakinatID"] = new SelectList(_context.Makina, "ID", "Modeli");
+            var result = _context.Makina.Where(m => m.ID == Mid).SingleOrDefault();
+            if (!result.ERezervuar)
+            {
+                ViewBag.msg = "Error";
+            }
+            else
+            {
+                ViewBag.msg = result.Modeli;
+                ViewBag.Kosto = result.Kosto1Dite;
+                ViewBag.Id = Mid;
+            }
             return View();
         }
 
-        // POST: Rezervimet/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Date_Rezervimi,Date_kthimi,Pagesa_totale,NumerTelefoni,Adresa,MakinatID")] Rezervimet rezervimet)
+        [Authorize]
+        public IActionResult Create(Rezervimet rezervimet, int id, decimal kosto)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(rezervimet);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                DateTime dt1 = rezervimet.Date_Rezervimi;
+                DateTime dt2 = rezervimet.Date_kthimi;
+                TimeSpan span = dt2.Subtract(dt1);
+                var result = span.Days;
+                var pagesa = result * kosto;
+                _context.Add(new Rezervimet { Date_Rezervimi = rezervimet.Date_Rezervimi, Date_kthimi = rezervimet.Date_kthimi, Pagesa_totale = pagesa, NumerTelefoni = rezervimet.NumerTelefoni, Adresa = rezervimet.Adresa, MakinatID = id, UserId = userId});
+                var makine = _context.Makina.Where(m => m.ID == id).SingleOrDefault();
+                makine.ERezervuar = false;
+                _context.SaveChanges();
+                ViewBag.mesazh = "Makina u rezervua!";
             }
-            ViewData["MakinatID"] = new SelectList(_context.Makina, "ID", "Modeli", rezervimet.MakinatID);
-            return View(rezervimet);
-        }
-
-        // GET: Rezervimet/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var rezervimet = await _context.Rezervimet.FindAsync(id);
-            if (rezervimet == null)
-            {
-                return NotFound();
-            }
-            ViewData["MakinatID"] = new SelectList(_context.Makina, "ID", "Modeli", rezervimet.MakinatID);
-            return View(rezervimet);
-        }
-
-        // POST: Rezervimet/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Date_Rezervimi,Date_kthimi,Pagesa_totale,NumerTelefoni,Adresa,MakinatID")] Rezervimet rezervimet)
-        {
-            if (id != rezervimet.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(rezervimet);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RezervimetExists(rezervimet.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["MakinatID"] = new SelectList(_context.Makina, "ID", "Modeli", rezervimet.MakinatID);
             return View(rezervimet);
         }
 
         // GET: Rezervimet/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -144,12 +100,21 @@ namespace Projekt_Programim_MVC.Controllers
         // POST: Rezervimet/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var rezervimet = await _context.Rezervimet.FindAsync(id);
+            var rezervim = await _context.Rezervimet.Where(m => m.ID == id).SingleOrDefaultAsync();
+            var makine = rezervim.MakinatID;
+            var result = await _context.Makina.Where(m => m.ID == makine).SingleOrDefaultAsync();
+            result.ERezervuar = true;
             _context.Rezervimet.Remove(rezervimet);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Confirm));
+        }
+        public IActionResult Confirm()
+        {
+            return View();
         }
 
         private bool RezervimetExists(int id)

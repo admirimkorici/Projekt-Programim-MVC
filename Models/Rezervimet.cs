@@ -34,5 +34,6 @@ namespace Projekt_Programim_MVC.Models
         [Display(Name = "Makina")]
         public int? MakinatID { get; set; }
         public virtual Makina Makinat { get; set; }
+        public string UserId { get; set; }
     }
 }

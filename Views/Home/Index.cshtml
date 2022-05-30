@@ -12,16 +12,22 @@
         <a href="/Mesazhe/New/" class="btn" style="border: 1px solid white; color: white;">Dergo nje mesazhe</a>
     </div>
 </section>
-    <div class="Cipa-content">
-        <h1 class="heading" style="text-align: center; margin-top: 20px;"> Markat e <span>Makinave</span> </h1>
-        <div class="box-container">
-            @foreach (var item in Model)
-            {
-                <a href="/Makina/Index?marka=@Html.DisplayFor(modelItem => item.Emri)">
-                    <div class="box">
-                        <img src="~/Images/Uploaded/@Html.DisplayFor(modelItem => item.Ikona)" />
-                    </div>
-                </a>
-            }
-        </div>
+<div class="Cipa-content">
+    <h1 class="heading" style="text-align: center; margin-top: 20px;"> Markat e <span>Makinave</span> </h1>
+    @if (User.Identity.IsAuthenticated && User.Identity.Name == "admirimkorici05@gmail.com")
+    {
+        <p>
+            <a asp-action="Create" asp-controller="Tipi" class="btn">Shto nje kategori</a>
+        </p>
+    }
+    <div class="box-container">
+        @foreach (var item in Model)
+        {
+            <a href="/Makina/Index?marka=@Html.DisplayFor(modelItem => item.Emri)">
+                <div class="box">
+                    <img src="~/Images/Uploaded/@Html.DisplayFor(modelItem => item.Ikona)" />
+                </div>
+            </a>
+        }
     </div>
+</div>

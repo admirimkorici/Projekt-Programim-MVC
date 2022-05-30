@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,10 @@ namespace Projekt_Programim_MVC.Controllers
             if (!String.IsNullOrEmpty(marka))
             {
                 applicationDbContext = await _context.Makina.Where(m => m.Tipi.Emri == marka).ToListAsync();
+                CookieOptions options = new CookieOptions();
+                options.Expires = DateTime.Now.AddHours(2);
+                options.Secure = true;
+                Response.Cookies.Append("Marka", marka, options);
             }
             return View(applicationDbContext);
         }
@@ -51,6 +57,7 @@ namespace Projekt_Programim_MVC.Controllers
         }
 
         // GET: Makina/Create
+        [Authorize]
         public IActionResult Create()
         {
             ViewData["TipiID"] = new SelectList(_context.Tipi, "ID", "Emri");
@@ -62,6 +69,7 @@ namespace Projekt_Programim_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create([Bind("ID,Modeli,Pershkrimi,Vit_Prodhimi,ERezervuar,Kosto1Dite,Foto,TipiID")] Makina makina)
         {
             if (ModelState.IsValid)
@@ -83,6 +91,7 @@ namespace Projekt_Programim_MVC.Controllers
         }
 
         // GET: Makina/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -104,6 +113,7 @@ namespace Projekt_Programim_MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Modeli,Pershkrimi,Vit_Prodhimi,ERezervuar,Kosto1Dite,IMG,TipiID")] Makina makina)
         {
             if (id != makina.ID)
@@ -136,6 +146,7 @@ namespace Projekt_Programim_MVC.Controllers
         }
 
         // GET: Makina/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -157,13 +168,14 @@ namespace Projekt_Programim_MVC.Controllers
         // POST: Makina/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var makina = await _context.Makina.FindAsync(id);
-            if(makina.IMG != null)
+            if (makina.IMG != null)
             {
                 var imagePath = Path.Combine("wwwroot/Images/Uploaded/", makina.IMG);
-                if(System.IO.File.Exists(imagePath))
+                if (System.IO.File.Exists(imagePath))
                     System.IO.File.Delete(imagePath);
             }
             _context.Makina.Remove(makina);

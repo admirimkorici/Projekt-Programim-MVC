@@ -1,15 +1,11 @@
 ﻿@model IEnumerable<Projekt_Programim_MVC.Models.Rezervimet>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Rezervimet";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h1>Rezervimet</h1>
 <table class="table">
     <thead>
         <tr>
@@ -54,11 +50,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Makinat.Modeli)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>
 }
